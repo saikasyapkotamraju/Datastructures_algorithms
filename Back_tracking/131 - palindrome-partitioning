@@ -1,0 +1,63 @@
+Given a string s, partition s such that every 
+substring
+ of the partition is a 
+palindrome
+. Return all possible palindrome partitioning of s.
+
+ 
+
+Example 1:
+
+Input: s = "aab"
+Output: [["a","a","b"],["aa","b"]]
+Example 2:
+
+Input: s = "a"
+Output: [["a"]]
+ 
+
+Constraints:
+
+1 <= s.length <= 16
+s contains only lowercase English letters.
+
+My solution : 
+
+class Solution {
+    public void helper(List<List<String>> res, String s, List<String> output, int start)
+    {
+        if(start==s.length())
+        {
+            res.add(new ArrayList<>(output));
+            return ;
+        }
+        for(int i=start; i<s.length(); i++)
+        {
+            if(palindrome(s, start, i))
+            {
+                output.add(s.substring(start, i+1));
+                helper(res, s, output, i+1);
+                output.remove(output.size()-1);
+            }
+        }
+    }
+    public boolean palindrome(String s, int start, int end)
+    {
+        while(start<end)
+        {
+            if(s.charAt(start)!=s.charAt(end))return false;
+            start++;
+            end--;
+        }
+        return true;
+    }
+    public List<List<String>> partition(String s) {
+        List<List<String>> res = new ArrayList<>();
+        helper(res, s, new ArrayList<>(), 0);
+        return res;
+    }
+}
+
+My logic : Partition at index 0 if it is a palindrome and proceed further with remaining substring.
+Come back and partition at index 1 if it is a palindrome and proceed further with remaining substring.
+Come back and follow the same process at every index.

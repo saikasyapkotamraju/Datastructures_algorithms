@@ -1,0 +1,49 @@
+Given a collection of numbers, nums, that might contain duplicates, return all possible unique permutations in any order.
+
+ 
+
+Example 1:
+
+Input: nums = [1,1,2]
+Output:
+[[1,1,2],
+ [1,2,1],
+ [2,1,1]]
+Example 2:
+
+Input: nums = [1,2,3]
+Output: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+ 
+
+Constraints:
+
+1 <= nums.length <= 8
+-10 <= nums[i] <= 10
+
+My solution : 
+class Solution {
+    public void helper(int[] nums, List<List<Integer>> res, List<Integer> output, boolean[] used) {
+        if (output.size() == nums.length) {
+            res.add(new ArrayList<>(output));
+            return;
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            if (used[i] || i!=0 && nums[i]==nums[i-1] && !used[i-1]) continue; // For the first time when i==0 case no need to check this condition 
+            used[i] = true;
+            output.add(nums[i]);
+            helper(nums, res, output, used);
+            used[i] = false;
+            output.remove(output.size() - 1);
+        }
+    }
+
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        boolean[] used = new boolean[nums.length];
+        Arrays.sort(nums); // Sorting is crucial for handling duplicates
+        helper(nums, res, new ArrayList<>(), used);
+        return res;
+    }
+}
+

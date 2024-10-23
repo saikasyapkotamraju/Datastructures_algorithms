@@ -1,0 +1,41 @@
+Solution 1 : Recursive solution
+class Solution {
+    // Function to reverse a linked list.
+    Node reverseList(Node head) {
+        // code here
+        if(head==null || head.next==null)return head;
+        Node curr = head;
+        Node prev = null;
+        Node nxt = null;
+        return helper(curr, prev);
+        
+    }
+    Node helper(Node curr, Node prev)
+    {
+        if(curr==null)return prev;
+        Node nxt = curr.next;
+        curr.next = prev;
+        return helper(nxt, curr);
+    }
+    
+}
+
+Solution 2 : Iterative soluiton
+class Solution {
+    // Function to reverse a linked list.
+    Node reverseList(Node head) {
+        // code here
+        if(head==null || head.next==null)return head;
+        Node prev = null;
+        Node curr = head;
+        Node nxt = null;
+        while(curr!=null)
+        {
+            nxt = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = nxt;
+        }
+        return prev;
+    }
+}

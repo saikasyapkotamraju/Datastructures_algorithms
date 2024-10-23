@@ -1,0 +1,18 @@
+class Solution {
+    // Function to check if the linked list has a loop.
+    public static boolean detectLoop(Node head) {
+        // Add code here
+        if(head==null || head.next==null)
+        {
+            return false;
+        }
+        Node slow = head, fast = head;
+        while(slow != null && fast!=null && fast.next!=null)
+        {
+            slow = slow.next;
+            fast = fast.next.next;
+            if(slow==fast)return true; //At any point of time if both slow and fast pointers meets then there is a loop
+        }
+        return false;
+    }
+}

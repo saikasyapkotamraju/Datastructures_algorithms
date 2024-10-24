@@ -1,0 +1,54 @@
+Solution 1 : Marking visited nodes
+
+class Solution {
+    // Function to remove a loop in the linked list.
+    public static void removeLoop(Node head) {
+        // code here
+        // remove the loop without losing any nodes
+        if(head==null || head.next==null)return ;
+        HashSet<Node> visitedNodes = new HashSet<>();
+        Node temp = head;
+        while(temp!=null)
+        {
+            if(!visitedNodes.contains(temp))
+            {
+                visitedNodes.add(temp);
+            }
+            if(visitedNodes.contains(temp.next))
+            {
+                temp.next = null;
+                return;
+            }
+            temp = temp.next;
+        }
+    }
+}
+
+Solution 2 : Using usual tortoise hair alogo(floyd cycle detection)
+
+public static void removeLoop(Node head) {
+        // code here
+        // remove the loop without losing any nodes
+        if(head==null || head.next==null)return ;
+        Node slow = head, fast = head;
+        while(fast!=null && fast.next!=null)
+        {
+            slow = slow.next;
+            fast = fast.next.next;
+            if(slow==fast) //At this point both slow & fast pointers met at one random node
+            {
+                slow = head; //Need to move both the pointers to start of the loop, so move slow to head and then move both pointers one step
+                while(slow!=fast)
+                {
+                    slow = slow.next;
+                    fast = fast.next;
+                }
+                while(fast.next!=slow) //At this point of time both pointers are at start of the loop, now find the end of the loop and remove its next
+                {
+                    fast = fast.next;
+                }
+                fast.next = null;
+                return;
+            }
+        }
+    }

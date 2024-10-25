@@ -1,0 +1,75 @@
+Given an unsorted linked list. The task is to remove duplicate elements from this unsorted Linked List. 
+When a value appears in multiple nodes, the node which appeared first should be kept, all other duplicates are to be removed.
+
+Solution : 
+class Solution {
+    // Function to remove duplicates from unsorted linked list.
+    public Node removeDuplicates(Node head) {
+        // Your code here
+        if(head==null || head.next==null)
+        {
+            return head;
+        }
+        HashSet<Integer> nodeValues = new HashSet<>();
+        Node prev = null, curr = head;
+        while(curr!=null)
+        {
+            if(!nodeValues.contains(curr.data))
+            {
+                nodeValues.add(curr.data);
+                prev = curr;
+            }
+            else
+            {
+                prev.next = curr.next;
+            }
+            curr = curr.next;
+        }
+        return head;
+            
+    }
+}
+
+Solution : 
+class Solution {
+    // Function to remove duplicates from unsorted linked list.
+    public Node removeDuplicates(Node head) {
+        // Your code here
+        if(head==null || head.next==null)return head;
+        HashSet<Integer> nodeValues = new HashSet<>();
+        Node slow = head, fast = head;
+        while(fast!=null && fast.next!=null)
+        {
+            if(!nodeValues.contains(fast.data))
+            {
+                nodeValues.add(fast.data);
+            }
+            if(nodeValues.contains(fast.next.data))
+            {
+                fast = fast.next; //If next data is present in set, move only fast
+            }
+            else
+            {
+                if(slow!=fast)  //If next data is not present in set and slow and fast are not same, connect slow & fast.next 
+                {
+                    fast = fast.next;
+                    slow.next = fast;
+                    slow = slow.next;
+                }
+                else
+                {
+                    fast = fast.next;
+                    slow = slow.next;
+                }
+            }
+        }
+        if(slow!=fast)
+        {
+            if(nodeValues.contains(fast.data))
+            {
+                slow.next = null;
+            }
+        }
+        return head;
+    }
+}

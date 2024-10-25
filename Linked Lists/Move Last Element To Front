@@ -1,0 +1,18 @@
+You are given the head of a Linked List. You have to move the last element to the front of the Linked List 
+and return the head the modified linked list.
+
+Solution : 
+class Solution {
+    public static Node moveToFront(Node head) {
+        // code here
+        Node temp = head;
+        while(temp!=null && temp.next!=null && temp.next.next!=null)
+        {
+            temp = temp.next;
+        }
+        Node headNew = temp.next;
+        temp.next = null;
+        headNew.next = head;
+        return headNew;
+    }
+}

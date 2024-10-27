@@ -1,0 +1,62 @@
+Given two numbers, num1, and num2, represented by linked lists. The task is to return the head of the linked list 
+representing the sum of these two numbers.
+
+For example, the number 190 will be represented by the linked list, 1->9->0->null, similarly 25 by 2->5->null. 
+Sum of these two numbers is 190 + 25 = 215, which will be represented by 2->1->5->null. 
+You are required to return the head of the linked list 2->1->5->null.
+
+Note: There can be leading zeros in the input lists, but there should not be any leading zeros in the output list.
+
+Solution : 
+
+class Solution {
+    // Function to add two numbers represented by linked list.
+    static Node addTwoLists(Node num1, Node num2) {
+        // code here
+        // return head of sum list
+        Stack<Node> st1 = new Stack<>();
+        Stack<Node> st2 = new Stack<>();
+        Stack<Integer> result = new Stack<>();
+        Node temp = num1;
+        while(temp!=null)
+        {
+            st1.push(temp);
+            temp = temp.next;
+        }
+        temp = num2;
+        while(temp!=null)
+        {
+            st2.push(temp);
+            temp = temp.next;
+        }
+        int carry = 0;
+        while(!st1.isEmpty() || !st2.isEmpty())
+        {
+            int sum = 0;
+            if(!st1.isEmpty())
+            {
+                sum = st1.pop().data;
+            }
+            if(!st2.isEmpty())
+            {
+                sum += st2.pop().data;
+            }
+            sum += carry;
+            result.push(sum%10);
+            carry = sum / 10;
+        }
+        if(carry > 0)
+        {
+            result.push(carry);
+        }
+        Node resultHead = new Node(-1);
+        Node dummy = resultHead;
+        while(!result.isEmpty())
+        {
+            Node node = new Node(result.pop());
+            resultHead.next = node;
+            resultHead = resultHead.next;
+        }
+        return dummy.next;
+    }
+}

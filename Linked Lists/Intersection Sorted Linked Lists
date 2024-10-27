@@ -1,0 +1,33 @@
+Given that two linked lists are sorted in increasing order, create a new linked list representing the intersection of the two linked lists. 
+The new linked list should be made without changing the original lists.
+
+Note: The elements of the linked list are not necessarily distinct.
+
+Solution :
+
+class Solution {
+    public static Node findIntersection(Node head1, Node head2) {
+        // code here.
+        HashSet<Integer> nodeValues = new HashSet<>();
+        Node result = new Node(-1);
+        Node dummy = result;
+        Node temp = head1;
+        while(temp!=null)
+        {
+            nodeValues.add(temp.data);
+            temp = temp.next;
+        }
+        temp = head2;
+        while(temp!=null)
+        {
+            if(nodeValues.contains(temp.data))
+            {
+                Node node = new Node(temp.data);
+                result.next = node;
+                result = result.next;
+            }
+            temp = temp.next;
+        }
+        return dummy.next;
+    }
+}

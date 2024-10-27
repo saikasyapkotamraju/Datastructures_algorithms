@@ -1,0 +1,44 @@
+You are given a linked list where each element in the list is a node and have an integer data. 
+You need to add 1 to the number formed by concatinating all the list node numbers together and return the head of the modified linked list. 
+
+Note: The head represents the first element of the given array.
+
+Solution : 
+
+class Solution {
+    public Node addOne(Node head) {
+        // code here.
+        Stack<Node> st = new Stack<>();
+        Node temp = head;
+        while(temp!=null)
+        {
+            st.push(temp);
+            temp = temp.next;
+        }
+        Node current = null;
+        int carry = 1, sum = 0;
+        while(!st.isEmpty())
+        {
+            current = st.pop();
+            sum = current.data + carry;
+            if(sum>9)
+            {
+                carry = 1;
+                current.data = sum - 10;
+            }
+            else
+            {
+                current.data = sum;
+                carry = 0;
+                break;
+            }
+        }
+        if(carry==1)
+        {
+            Node lastNode = new Node(1);
+            lastNode.next = head;
+            return lastNode;
+        }
+        return head;
+    }
+}

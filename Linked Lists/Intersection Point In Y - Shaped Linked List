@@ -1,0 +1,57 @@
+Given two singly linked lists, return the point where two linked lists intersect.
+
+Note: If the linked lists do not merge at any point, return -1.
+
+Solution 1 : 
+class Intersect {
+    // Function to find intersection point in Y shaped Linked Lists.
+    int intersectPoint(Node head1, Node head2) {
+        // code here
+        int l1 = 0, l2 = 0;
+        Node temp = head1;
+        while(temp!=null)
+        {
+            l1++;
+            temp = temp.next;
+        }
+        temp = head2;
+        while(temp!=null)
+        {
+            l2++;
+            temp = temp.next;
+        }
+        temp = l1>l2 ? head1 : head2;
+        Node temp2 = temp==head1 ? head2 : head1;
+        int diff = Math.abs(l1-l2);
+        while(diff-->0)
+        {
+            temp = temp.next;
+        }
+        while(temp!=null)
+        {
+            if(temp==temp2)return temp.data;
+            temp = temp.next;
+            temp2 = temp2.next;
+        }
+        return -1;
+    }
+}
+
+Solution 2 (optimised):
+Using two pointers technique & making both the pointers to travel for same distance. So both pointers after travelling same distance will meet at the
+intersection. If there is no intersection both the pointers meet at null after travelling same amount of distance (i.e both the lists completely).
+class Intersect {
+    // Function to find intersection point in Y shaped Linked Lists.
+    int intersectPoint(Node head1, Node head2) {
+        // code here
+        if(head1==null || head2==null)return -1;
+        Node temp1 = head1, temp2 = head2;
+        while(temp1!=temp2)
+        {
+            temp1 = temp1!=null ? temp1.next : head2;
+            temp2 = temp2!=null ? temp2.next : head1;
+        }
+        
+        return temp1!=null ? temp1.data : -1;
+    }
+}

@@ -1,0 +1,42 @@
+You are given a Linked List. Sort the given Linked List using quicksort.
+
+Solution :
+
+class GfG {
+    public static Node quickSort(Node node) {
+        // Your code here
+        if(node==null || node.next==null)return node;
+        
+        Node pivot = node;
+        Node smaller = new Node(-1), lastSmaller = smaller;
+        Node larger = new Node(-1), lastLarger = larger;
+        
+        Node current = node.next;
+        while(current!=null)
+        {
+            if(current.data<=pivot.data)
+            {
+                lastSmaller.next = new Node(current.data);
+                lastSmaller = lastSmaller.next;
+            }
+            else
+            {
+                lastLarger.next = new Node(current.data);
+                lastLarger = lastLarger.next;
+            }
+            current = current.next;
+        }
+        lastSmaller.next = null;
+        lastLarger.next = null;
+        smaller.next = quickSort(smaller.next);
+        larger.next = quickSort(larger.next);
+        lastSmaller = smaller;
+        while(lastSmaller.next!=null)
+        {
+            lastSmaller = lastSmaller.next;
+        }
+        lastSmaller.next = pivot;
+        pivot.next = larger.next;
+        return smaller.next;
+    }
+}

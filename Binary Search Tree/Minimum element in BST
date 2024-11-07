@@ -1,0 +1,18 @@
+Given the root of a Binary Search Tree. The task is to find the minimum valued element in this given BST.
+
+Solution :
+
+class Solution {
+    // Function to find the minimum element in the given BST.
+    int minValue(Node root) {
+        // code here
+        if(root==null)return -1;
+        int currVal = root.data;
+        int leftMinVal = minValue(root.left);
+        if(leftMinVal!=-1)
+        {
+            return currVal < leftMinVal ? currVal : leftMinVal;
+        }
+        return currVal;
+    }
+}

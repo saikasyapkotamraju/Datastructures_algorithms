@@ -1,0 +1,43 @@
+Given a Binary Tree, complete the function to populate the next pointer for all nodes. 
+The next pointer for every node should point to the Inorder successor of the node.
+You do not have to return or print anything. Just make changes in the root node given to you.
+
+Note: The node having no in-order successor will be pointed to -1. You don't have to add -1 explicitly, the driver code will take care of this.
+
+My note : Convert given BST into linked list, nodes should be connected in inorder traversal
+
+Solution 1 (with extra space): 
+
+class Solution {
+    public void populateNext(Node root) {
+        // code here
+        ArrayList<Node> inOrderNodes = new ArrayList<>();
+        inOrder(root, inOrderNodes);
+        for(int i=0; i<inOrderNodes.size()-1; i++)
+        {
+            inOrderNodes.get(i).next = inOrderNodes.get(i+1);
+        }
+    }
+    public void inOrder(Node root, ArrayList<Node> inOrderNodes)
+    {
+        if(root==null)return;
+        inOrder(root.left, inOrderNodes);
+        inOrderNodes.add(root);
+        inOrder(root.right, inOrderNodes);
+    }
+}
+
+Solution 2 (without using extra space):
+
+class Solution {
+    Node prev = null;
+    public void populateNext(Node root) {
+        // code here
+        if(root==null)return;
+        populateNext(root.left);
+        if(prev!=null)prev.next = root;
+        prev = root;
+        populateNext(root.right);
+        
+    }
+}

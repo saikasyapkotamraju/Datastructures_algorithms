@@ -1,0 +1,59 @@
+Given a Binary Search Tree. Your task is to complete the function which will return the kth largest element without doing any modification 
+in the Binary Search Tree.
+
+Solution 1 : 
+
+class Solution {
+    // return the Kth largest element in the given BST rooted at 'root'
+    public void getInorderTraversal(Node root, ArrayList<Integer> inOrderNodes)
+    {
+        if(root!=null)
+        {
+            getInorderTraversal(root.left, inOrderNodes);
+            inOrderNodes.add(root.data);
+            getInorderTraversal(root.right, inOrderNodes);
+        }
+    }
+    public int kthLargest(Node root, int k) {
+        // Your code here
+        ArrayList<Integer> inOrderNodes = new ArrayList<>();
+        getInorderTraversal(root, inOrderNodes);
+        int p =0;
+        for(int i=inOrderNodes.size()-1; i>=0; i--)
+        {
+            p++;
+            if(p==k)return inOrderNodes.get(i);
+        }
+        return -1;
+    }
+}
+
+solution 2 :
+class Solution {
+    // return the Kth largest element in the given BST rooted at 'root'
+    public void helper(Node root, PriorityQueue<Integer> pq, int k) {
+        if (root == null) return;
+
+        // Traverse right subtree first (to get larger values)
+        helper(root.right, pq, k);
+
+        // Add current node's data to priority queue
+        if (pq.size() < k) {
+            pq.add(root.data);
+        } else if (pq.peek() < root.data) {
+            pq.poll();
+            pq.add(root.data);
+        }
+
+        // Traverse left subtree
+        helper(root.left, pq, k);
+    }
+
+    public int kthLargest(Node root, int k) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        helper(root, pq, k);
+        
+        // Return the k-th largest element
+        return pq.peek(); // This should be valid as long as k is valid
+    }
+}

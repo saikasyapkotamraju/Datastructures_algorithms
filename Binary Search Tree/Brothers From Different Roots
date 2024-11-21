@@ -1,0 +1,93 @@
+Given two BSTs containing N1 and N2 distinct nodes respectively and given a value x, your task is to complete the function countPairs(), 
+that returns the count of all pairs of (a, b), where a belongs to one BST and b belongs to another BST, such that a + b = x.
+
+Solution : 
+
+class Solution
+{
+    public static void getInorder(Node root, ArrayList<Integer> inorder)
+    {
+        if(root!=null)
+        {
+            getInorder(root.left, inorder);
+            inorder.add(root.data);
+            getInorder(root.right, inorder);
+        }
+    }
+    
+    public static boolean findTarget(ArrayList<Integer> inorderArr, int target)
+    {
+        int start = 0, end = inorderArr.size()-1;
+        while(start <= end)
+        {
+            int mid = (start+end)/2;
+            if(inorderArr.get(mid)==target)
+            {
+                return true;
+            }
+            else if(inorderArr.get(mid)<target)
+            {
+                start = mid + 1;
+            }
+            else
+            {
+                end = mid - 1;
+            }
+        }
+        return false;
+    }
+	public static int countPairs(Node root1, Node root2, int x)
+	{
+		// Code here
+		ArrayList<Integer> inorder1 = new ArrayList<>();
+		ArrayList<Integer> inorder2 = new ArrayList<>();
+		getInorder(root1, inorder1);
+		getInorder(root2, inorder2);
+		int pairsCount = 0;
+		for(int num : inorder1)
+		{
+		    int target = x - num;
+		    if(findTarget(inorder2, target))
+		    {
+		        pairsCount++;
+		    }
+		}
+		return pairsCount;
+	}
+}
+
+Solution 2 : 
+class Solution {
+    // Helper method to perform inorder traversal and store values in a HashSet
+    private static void storeInSet(Node root, HashSet<Integer> set) {
+        if (root == null) return;
+        set.add(root.data);
+        storeInSet(root.left, set);
+        storeInSet(root.right, set);
+    }
+
+    public static int countPairs(Node root1, Node root2, int x) {
+        // Create a HashSet to store values from root2
+        HashSet<Integer> set = new HashSet<>();
+        storeInSet(root2, set);
+
+        // Now count pairs
+        return findPairsCount(root1, set, x);
+    }
+
+    private static int findPairsCount(Node root1, HashSet<Integer> set, int x) {
+        if (root1 == null) return 0;
+
+        int count = 0;
+        // Check if the complement exists in the set
+        if (set.contains(x - root1.data)) {
+            count++;
+        }
+        
+        // Recursively check left and right subtrees
+        count += findPairsCount(root1.left, set, x);
+        count += findPairsCount(root1.right, set, x);
+
+        return count;
+    }
+}

@@ -1,0 +1,74 @@
+You are given a 2D binary array arr[][] consisting of only 1s and 0s. Each row of the array is sorted in non-decreasing order. 
+Your task is to find and return the index of the first row that contains the maximum number of 1s. If no such row exists, return -1.
+
+Note:
+
+The array follows 0-based indexing.
+The number of rows and columns in the array are denoted by n and m respectively.
+
+Solution 1: 
+
+class Solution {
+    public int rowWithMax1s(int arr[][]) {
+        // code here
+        int result = -1;
+        int maxOnes = Integer.MIN_VALUE;
+        
+        for(int i=0; i<arr.length; i++)
+        {
+            int count = upperBound(arr[i], 0);
+            int onesCount = arr[i].length - count;
+            if(maxOnes<onesCount)
+            {
+                maxOnes = onesCount;
+                result = i;
+            }
+        }
+        return result;
+    }
+    
+    public int upperBound(int[] arr, int target)
+    {
+        int left = 0, right = arr.length-1;
+        while(left<=right)
+        {
+            int mid = (left+right)/2;
+            if(arr[mid]<=target)
+            {
+                left = mid + 1;
+            }
+            else
+            {
+                right = mid - 1;
+            }
+        }
+        return left;
+    }
+}
+
+Solution 2 :
+
+class Solution {
+    public int rowWithMax1s(int arr[][]) {
+        int R = arr.length;
+        int C = arr[0].length;
+
+        int maxRowIndex = -1; // To store the index of the row with maximum 1s
+        int maxCount = 0; // To store the maximum count of 1s
+        int j = C - 1; // Start from the top-right corner
+
+        // Traverse the matrix
+        for (int i = 0; i < R; i++) {
+            // Move left while we encounter 1s
+            while (j >= 0 && arr[i][j] == 1) {
+                j--; // Move left
+                if (maxCount < (C - j - 1)) { // Update maxCount and maxRowIndex
+                    maxCount = C - j - 1;
+                    maxRowIndex = i;
+                }
+            }
+        }
+
+        return maxRowIndex; // Return index of row with maximum 1s
+    }
+}

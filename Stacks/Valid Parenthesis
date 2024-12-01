@@ -1,0 +1,37 @@
+You are given a string s representing an expression containing various types of brackets: {}, (), and []. 
+Your task is to determine whether the brackets in the expression are balanced. 
+A balanced expression is one where every opening bracket has a corresponding closing bracket in the correct order.
+
+Solution :
+
+class Solution {
+    // Function to check if brackets are balanced or not.
+    static boolean isParenthesisBalanced(String s) {
+        // code here
+        HashMap<Character, Character> parenthesis = new HashMap<Character, Character>()
+        {{
+            put('}', '{');
+            put(')', '(');
+            put(']', '[');
+        }};
+        
+        Stack<Character> charStack = new Stack<>();
+        for(char c : s.toCharArray())
+        {
+            if(c=='(' || c=='{' || c=='[')
+            {
+                charStack.push(c);
+            }
+            else if(c==')' || c==']' || c=='}')
+            {
+                if(charStack.isEmpty())return false;
+                if(charStack.peek()!=parenthesis.get(c))
+                {
+                    return false;
+                }
+                charStack.pop();
+            }
+        }
+        return charStack.isEmpty() ? true : false;
+    }
+}

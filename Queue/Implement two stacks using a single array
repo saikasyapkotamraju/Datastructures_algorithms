@@ -1,0 +1,54 @@
+Your task is to implement  2 stacks in one array efficiently. You need to implement 4 methods.
+
+twoStacks : Initialize the data structures and variables to be used to implement  2 stacks in one array.
+push1 : pushes element into the first stack.
+push2 : pushes element into the second stack.
+pop1 : pops an element from the first stack and returns the popped element. If the first stack is empty, it should return -1.
+pop2 : pops an element from the second stack and returns the popped element. If the second stack is empty, it should return -1.
+
+Solution :
+
+class twoStacks {
+    int[] array;
+    int top1, top2;
+    
+    twoStacks() {
+        array = new int[200];
+        top1 = -1;
+        top2 = 200;
+    }
+
+    // Function to push an integer into the stack1.
+    void push1(int x) {
+        array[top1+1] = x;
+        top1++;
+    }
+
+    // Function to push an integer into the stack2.
+    void push2(int x) {
+        array[top2-1] = x;
+        top2--;
+    }
+
+    // Function to remove an element from top of the stack1.
+    int pop1() {
+        if(top1>=0)
+        {
+            int ele = array[top1];
+            top1--;
+            return ele;
+        }
+        return -1;
+    }
+
+    // Function to remove an element from top of the stack2.
+    int pop2() {
+        if(top2<200)
+        {
+            int ele = array[top2];
+            top2++;
+            return ele;
+        }
+        return -1;
+    }
+}

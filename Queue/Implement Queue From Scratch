@@ -1,0 +1,85 @@
+Implement a Queue Data Structure specifically to store integer data using a Singly Linked List or an array.
+
+You need to implement the following public functions :
+
+1. Constructor: It initializes the data members as required.
+
+2. enqueue(data): This function should take one argument of type integer. It enqueues the element into the queue.
+
+3. dequeue(): It dequeues/removes the element from the front of the queue and in turn, returns the element being dequeued or removed. In case the queue is empty, it returns -1.
+
+4. front(): It returns the element being kept at the front of the queue. In case the queue is empty, it returns -1.
+
+5. isEmpty(): It returns a boolean value indicating whether the queue is empty or not.
+
+Solution :
+import java.util.* ;
+import java.io.*; 
+
+public class Queue {
+
+    Node front, rear;
+    Queue() {
+        // Implement the Constructor
+        front = null;
+        rear = null;
+    }
+
+    /*----------------- Public Functions of Queue -----------------*/
+
+    boolean isEmpty() {
+        // Implement the isEmpty() function
+        return front==null;
+    }
+
+    void enqueue(int data) {
+        // Implement the enqueue() function
+        Node newNode = new Node(data);
+        if(isEmpty())
+        {
+            front = newNode;
+            rear = front;
+        }
+        else
+        {
+            rear.next = newNode;
+            rear = rear.next;
+        }
+    }
+
+    int dequeue() {
+        // Implement the dequeue() function
+        if(!isEmpty())
+        {
+            int firstNodeData = front.data;
+            front = front.next;
+            if(front==rear)
+            {
+                rear = front;
+            }
+            return firstNodeData;
+        }
+        return -1;
+    }
+
+    int front() {
+        // Implement the front() function
+        if(!isEmpty())
+        {
+            return front.data;
+        }
+        return -1;
+    }
+    public class Node
+    {
+        int data;
+        Node next;
+        public Node(int data)
+        {
+            this.data = data;
+            this.next = null;
+        }
+
+    }
+
+}

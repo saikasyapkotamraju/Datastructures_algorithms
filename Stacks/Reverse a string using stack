@@ -1,0 +1,22 @@
+You are given a string S, the task is to reverse the string using stack.
+
+Solution :
+
+class Solution {
+    
+    public String reverse(String S){
+        //code here
+        String result = "";
+        Stack<Character> charStack = new Stack<>();
+        for(char c : S.toCharArray())
+        {
+            charStack.push(c);
+        }
+        while(!charStack.isEmpty())
+        {
+            result+=charStack.pop();
+        }
+        return result;
+    }
+
+}

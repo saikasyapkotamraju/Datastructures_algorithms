@@ -1,0 +1,54 @@
+Given string S representing a postfix expression, the task is to evaluate the expression and find the final value. Operators will only include the basic arithmetic operators like *, /, + and -.
+Example 1:
+
+Input: S = "231*+9-"
+Output: -4
+Explanation:
+After solving the given expression, 
+we have -4 as result.
+
+Solution :
+
+class Solution
+{
+    //Function to evaluate a postfix expression.
+    public static int evaluatePostFix(String S)
+    {
+        // Your code here
+        Stack<Integer> integerStack = new Stack<>();
+        for(char c : S.toCharArray())
+        {
+            if(c=='+' || c=='-' || c=='*' || c=='/')
+            {
+                if(!integerStack.isEmpty() && integerStack.size()>=2)
+                {
+                    int num2 = integerStack.pop();
+                    int num1 = integerStack.pop();
+                    integerStack.push(compute(num1, num2, c));
+                }
+            }
+            else if((c-'0')>=0 && (c-'0')<=9)
+            {
+                integerStack.push(c-'0');
+            }
+        }
+        
+        return integerStack.pop();
+    }
+    
+    public static int compute(int num1, int num2, char operand)
+    {
+        switch(operand)
+        {
+            case '+':
+                return num1 + num2;
+            case '-':
+                return num1 - num2;
+            case '*':
+                return num1 * num2;
+            case '/':
+                return num1 / num2;
+        }
+        return -1;
+    }
+}

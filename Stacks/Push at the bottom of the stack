@@ -1,0 +1,49 @@
+You are given a stack/deque of integers 'MY-STACK' and an integer ‘X’. Your task is to insert ‘X’ to the bottom of ‘MY-STACK’ and return the updated stack/deque.
+
+Note :
+If ‘MY_STACK’ = [7, 1, 4, 5], then the first element represents the element at the bottom of the stack and the last element represents the element at the top of the stack.
+For Example :
+Let ‘MY_STACK’ = [7, 1, 4, 5] and ‘X’ = 9. So, ‘MY_STACK’ after insertion becomes [9, 7, 1, 4, 5].
+
+Solution 1 (brute force):
+public class Solution 
+{
+  public static Stack<Integer> pushAtBottom(Stack <Integer> myStack, int x) 
+  {
+    // Write your code here
+    Stack<Integer> temp = new Stack<>();
+    while(!myStack.isEmpty())
+    {
+      temp.push(myStack.pop());
+    }
+    myStack.push(x);
+    while(!temp.isEmpty())
+    {
+      myStack.push(temp.pop());
+    }
+    return myStack;
+  }
+}
+
+
+Solution 2 (optimal) :
+Note : take a simple example of having a single element in stack and try to build recursive solution
+public class Solution 
+{
+  public static Stack<Integer> pushAtBottom(Stack <Integer> myStack, int x) 
+  {
+    if(myStack.isEmpty())
+    {
+      myStack.push(x);
+      return myStack;
+    }
+
+    int top = myStack.pop();
+
+    pushAtBottom(myStack, x);
+
+    myStack.push(top);
+
+    return myStack;
+  }
+}

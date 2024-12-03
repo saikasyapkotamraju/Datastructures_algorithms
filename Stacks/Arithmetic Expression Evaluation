@@ -1,0 +1,92 @@
+You are given a string ‘expression’ consists of characters ‘+’, ‘-’, ‘*’, ‘/’, ‘(‘, ‘)’ and ‘0’ to ‘9’, that represents an Arithmetic Expression in Infix Notation. Your task is to evaluate this Arithmetic Expression.
+
+In Infix Notation, operators are written in-between their operands.
+
+Note :
+1. We consider the ‘/’ operator as the floor division.
+
+2. Operators ‘*’ and ‘/’ expression has higher precedence over operators‘+’ and ‘-’ 
+
+3. String expression always starts with ‘(‘ and ends with ‘)’.
+
+4. It is guaranteed that ‘expression’ represents’ a valid expression in Infix notation.
+
+5. It is guaranteed that there will be no case that requires division by 0.
+
+6. No characters other than those mentioned above are present in the string. 
+
+7. It is guaranteed that the operands and final result will fit in a 32-bit integer.
+
+Solution :
+
+public class Solution
+{
+    public static int evaluateArithmeticExpression(String expression) 
+    {
+        Stack<Integer> integerStack = new Stack<>();
+        Stack<Character> operandStack = new Stack<>();
+        String integerStr = "";
+        for(char c : expression.toCharArray())
+        {
+            if(c=='+' || c== '-' || c=='*' || c=='/')
+            {
+                if(integerStr.length()>0)
+                {
+                    integerStack.push(Integer.parseInt(integerStr));
+                }
+                integerStr = "";
+                operandStack.push(c);
+            }
+            else if((c-'0')>=0 && (c-'0')<=9)
+            {
+                integerStr += c;
+            }
+            else if(c == ')')
+            {
+                if(integerStr.length()>0)
+                {
+                    integerStack.push(Integer.parseInt(integerStr));
+                }
+                integerStr = "";
+                if(!integerStack.isEmpty() && integerStack.size()>=2)
+                {
+                    int num2 = integerStack.pop();
+                    int num1 = integerStack.pop();
+                    if(!operandStack.isEmpty())
+                    {
+                        char operand = operandStack.pop();
+                        integerStack.push(compute(num1, num2, operand));
+                    }
+                }
+            }
+        }
+        if(!integerStack.isEmpty() && integerStack.size()>=2)
+        {
+            if(!operandStack.isEmpty())
+            {
+                int num2 = integerStack.pop();
+                int num1 = integerStack.pop();
+                char operand = operandStack.pop();
+                integerStack.push(compute(num1, num2, operand));
+            }
+        }
+        return integerStack.pop();
+
+    }
+
+    public static int compute(int num1, int num2, char operand)
+    {
+        switch(operand)
+        {
+            case '+':
+                return num1 + num2;
+            case '-':
+                return num1 - num2;
+            case '*':
+                return num1 * num2;
+            case '/':
+                return num1 / num2;
+        }
+        return -1;
+    }
+}

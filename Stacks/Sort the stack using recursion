@@ -1,0 +1,58 @@
+Given a stack, the task is to sort it such that the top of the stack has the greatest element.
+
+Solution 1 (using extra space) :
+
+class GfG {
+    public Stack<Integer> sort(Stack<Integer> s) {
+        // add code here.
+        if(s.isEmpty()) return s;
+        
+        int top = s.pop();
+        s = sort(s);
+        ArrayList<Integer> temp = new ArrayList<>();
+        while(!s.isEmpty() && s.peek()>top)
+        {
+            temp.add(s.pop());
+        }
+        s.push(top);
+        for(int i=temp.size()-1; i>=0; i--)
+        {
+            s.push(temp.get(i));
+        }
+        return s;
+    }
+}
+
+Solution 2 (without using extra space) :
+
+class GfG {
+    public Stack<Integer> sort(Stack<Integer> s) {
+        // add code here.
+        if(s.isEmpty())return s;
+        
+        int top = s.pop();
+        
+        sort(s);
+        
+        sortedInsert(s, top);
+        
+        return s;
+    }
+    
+    public void sortedInsert(Stack<Integer> s, int x)
+    {
+        if(s.isEmpty())
+        {
+            s.push(x);
+            return ;
+        }
+        
+        if(s.peek()<x)s.push(x);
+        else
+        {
+            int top = s.pop();
+            sortedInsert(s, x);
+            s.push(top);
+        }
+    }
+}

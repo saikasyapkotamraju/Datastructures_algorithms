@@ -1,0 +1,33 @@
+Reverse a given stack of 'N' integers using recursion. You are required to make changes in the input parameter itself.
+Note: You are not allowed to use any extra space other than the internal stack space used due to recursion.
+
+Solution :
+public class Solution {
+    
+	public static void reverseStack(Stack<Integer> stack) {
+		// write your code here
+		if(stack.isEmpty())return ;
+
+		int top = stack.pop();
+
+		reverseStack(stack);
+
+		insertAtBottom(stack, top);
+		
+	}
+
+	public static void insertAtBottom(Stack<Integer> stack, int x)
+	{
+		if(stack.isEmpty()){
+			stack.push(x);
+			return ;
+		}
+
+		int top = stack.pop();
+
+		insertAtBottom(stack, x);
+
+		stack.push(top);
+	}
+
+}

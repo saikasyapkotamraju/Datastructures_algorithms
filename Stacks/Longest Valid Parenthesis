@@ -1,0 +1,34 @@
+Given a string s consisting only of opening and closing parentheses ( and ), find the length of the longest valid (well-formed) parentheses substring.
+
+Note: The length of the smallest valid substring () is 2.
+
+Solution :
+class Solution {
+    static int findMaxLen(String S) {
+        // code here
+        Stack<Integer> st = new Stack<>();
+        st.push(-1);
+        int result = Integer.MIN_VALUE;
+        
+        for(int i=0; i<S.length(); i++)
+        {
+            if(S.charAt(i)=='(')
+            {
+                st.push(i);
+            }
+            else
+            {
+                st.pop();
+                if(st.isEmpty())
+                {
+                    st.push(i);
+                }
+                else
+                {
+                    result = Math.max(result, i-st.peek());
+                }
+            }
+        }
+        return result==Integer.MIN_VALUE? 0 : result;
+    }
+}

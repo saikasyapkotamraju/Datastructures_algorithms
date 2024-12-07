@@ -1,0 +1,32 @@
+Given an array arr[]  and a positive integer k, find the first negative integer for each and every window(contiguous subarray) of size k.
+
+Note: If a window does not contain a negative integer, then return 0 for that window.
+
+Solution :
+
+static List<Integer> FirstNegativeInteger(int arr[], int k) {
+        // write code here
+        List<Integer> result = new ArrayList<>();
+        Queue<Integer> negativeNums = new LinkedList<>();
+        
+        for(int i=0; i<arr.length; i++)
+        {
+            while(!negativeNums.isEmpty() && negativeNums.peek()<=i-k)
+            {
+                negativeNums.poll();
+            }
+            
+            if(arr[i]<0)
+            {
+                negativeNums.add(i);
+            }
+            
+            if(i>=k-1)
+            {
+                if(negativeNums.isEmpty())result.add(0);
+                else result.add(arr[negativeNums.peek()]);
+            }
+        }
+        
+        return result;
+    }

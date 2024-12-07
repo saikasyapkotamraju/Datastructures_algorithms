@@ -1,0 +1,31 @@
+Given an array of integers and number k which represents window size. Determine maximum element in the array in every window of k size from the 
+first index. 
+
+class Main {
+    public static void main(String[] args) {
+        int[] arr = {2,3,4,5,1,2,5,6};
+        int k = 3;
+        
+        ArrayList<Integer> result = new ArrayList<>();
+        
+        Deque<Integer> dq = new LinkedList<>();
+        
+        for(int i=0; i<arr.length; i++)
+        {
+            while(!dq.isEmpty() && dq.peekFirst() <= i-k)
+            {
+                dq.pollFirst();
+            }
+            
+            while(!dq.isEmpty() && arr[dq.peekLast()] <= arr[i])
+            {
+                dq.pollLast();
+            }
+            dq.addLast(i);
+            
+            if(i>=k-1)result.add(arr[dq.peekFirst()]);
+        }
+        
+        for(int num : result)System.out.println(num);
+    }
+}

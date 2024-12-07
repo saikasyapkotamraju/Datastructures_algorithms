@@ -1,0 +1,48 @@
+You are given an array consisting of N integers, and an integer, K. Your task is to determine the total sum of the minimum element and the maximum element of all subarrays of size K.
+
+Note :
+
+The array may contain duplicate elements.
+The array can also contain negative integers.
+The size of the array is at least 2.
+There exists at least one such subarray of size k.
+
+
+public class Solution {
+    public static long sumOfMaxAndMin(ArrayList<Integer> nums, int n, int k) {
+        long result = 0;
+
+        // Deques to store indices of max and min elements
+        Deque<Integer> maxDeque = new LinkedList<>();
+        Deque<Integer> minDeque = new LinkedList<>();
+
+        for (int i = 0; i < n; i++) {
+            // Remove elements out of this window from both deques
+            if (!maxDeque.isEmpty() && maxDeque.peekFirst() == i - k) {
+                maxDeque.pollFirst();
+            }
+            if (!minDeque.isEmpty() && minDeque.peekFirst() == i - k) {
+                minDeque.pollFirst();
+            }
+
+            // Maintain decreasing order in maxDeque
+            while (!maxDeque.isEmpty() && nums.get(maxDeque.peekLast()) <= nums.get(i)) {
+                maxDeque.pollLast();
+            }
+            maxDeque.addLast(i);
+
+            // Maintain increasing order in minDeque
+            while (!minDeque.isEmpty() && nums.get(minDeque.peekLast()) >= nums.get(i)) {
+                minDeque.pollLast();
+            }
+            minDeque.addLast(i);
+
+            // Start adding results after reaching the first window
+            if (i >= k - 1) {
+                result += nums.get(maxDeque.peekFirst()) + nums.get(minDeque.peekFirst());
+            }
+        }
+
+        return result;
+    }
+}

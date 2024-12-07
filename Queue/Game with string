@@ -1,0 +1,37 @@
+Given a string str of lowercase alphabets and a number k, the task is to print the minimum value of the string after removal of k characters. The value of a string is defined as the sum of squares of the count of each distinct character present in the string. Return the minimum possible required value.
+
+Solution :
+
+class Solution {
+    static int minValue(String s, int k) {
+        // code here
+        int freq[] = new int[26];
+        for(char c : s.toCharArray())
+        {
+            freq[c - 'a']++;
+        }
+        
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> b - a);
+        
+        for(int num : freq)
+        {
+            if(num>0)maxHeap.add(num);
+        }
+        
+        while(k>0 && !maxHeap.isEmpty())
+        {
+            int top = maxHeap.poll();
+            top--;
+            k--;
+            maxHeap.add(top);
+        }
+        
+        int result = 0;
+        while(!maxHeap.isEmpty()){
+            int top = maxHeap.poll();
+            result += top * top;
+        }
+        
+        return result;
+    }
+}

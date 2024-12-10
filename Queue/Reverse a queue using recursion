@@ -1,0 +1,15 @@
+Given a queue q containing integer elements, your task is to reverse the queue.
+
+Solution :
+class Solution {
+    // Function to reverse the queue.
+    public Queue<Integer> reverseQueue(Queue<Integer> queue) {
+        // code here.
+        if(queue.isEmpty())return queue;
+        int top = queue.poll();
+        reverseQueue(queue);
+        queue.add(top);
+        return queue;
+    }
+    
+}

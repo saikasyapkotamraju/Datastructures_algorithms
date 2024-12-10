@@ -1,0 +1,62 @@
+Given a matrix where each cell in the matrix can have values 0, 1 or 2 which has the following meaning:
+0 : Empty cell
+1 : Cells have fresh oranges
+2 : Cells have rotten oranges
+
+We have to determine what is the earliest time after which all the oranges are rotten. A rotten orange at index [i, j] can rot other fresh orange at indexes [i-1, j], [i+1, j], [i, j-1], [i,j+1] (up, down, left and right) in unit time.
+
+Note: Your task is to return the minimum time to rot all the fresh oranges. If not possible returns -1.
+
+Solution :
+
+class Solution {
+    // Function to find minimum time required to rot all oranges.
+    public int orangesRotting(int[][] mat) {
+        // Code here
+        int rows = mat.length;
+        int cols = mat[0].length;
+        int minutes = 0, freshOrange = 0;
+        Queue<int[]> rottenOranges = new LinkedList<>();
+        
+        for(int i=0; i<rows; i++)
+        {
+            for(int j=0; j<cols; j++)
+            {
+                if(mat[i][j]==2)
+                {
+                    rottenOranges.add(new int[]{i, j});
+                }
+                else if(mat[i][j]==1)freshOrange++;
+            }
+        }
+        
+        int[][] directions = new int[][]{{-1,0}, {1,0}, {0,-1}, {0,1}};
+        while(!rottenOranges.isEmpty() && freshOrange>0)
+        {
+            int size = rottenOranges.size();
+            while(size-->0)
+            {
+                int[] rotOrange = rottenOranges.poll();
+                for(int[] dir : directions)
+                {
+                    int newRow = rotOrange[0] + dir[0];
+                    int newCol = rotOrange[1] + dir[1];
+                    
+                    if(newRow>=0 && newRow<rows && newCol>=0 && newCol<cols)
+                    {
+                        if(mat[newRow][newCol]==1)
+                        {
+                            freshOrange--;
+                            mat[newRow][newCol]=2;
+                            rottenOranges.add(new int[]{newRow, newCol});
+                        }
+                    }
+                }
+            }
+            
+            minutes++;
+        }
+        
+        return freshOrange==0 ? minutes : -1;
+    }
+}

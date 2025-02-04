@@ -1,0 +1,36 @@
+Given an array arr[], partition it into two subsets(possibly empty) such that each element must belong to only one subset. Let the sum of the elements of these two subsets be sum1 and sum2. Given a difference d, count the number of partitions in which sum1 is greater than or equal to sum2 and the difference between sum1 and sum2 is equal to d.
+
+class Solution {
+    int countPartitions(int[] arr, int d) {
+        int totSum = 0, newTarget = 0;
+        for(int num : arr)
+        {
+            totSum += num;
+        }
+        
+        if((d+totSum)%2!=0 || d>totSum)return 0;
+        
+        newTarget = (d+totSum)/2;
+        
+        int[][] dp = new int[arr.length+1][newTarget+1];
+        
+        dp[0][0] = 1;
+        
+        for(int i=1; i<arr.length+1; i++)
+        {
+            for(int j=0; j<newTarget+1; j++)
+            {
+                if(arr[i-1]<=j)
+                {
+                    dp[i][j] = dp[i-1][j] + dp[i-1][j-arr[i-1]];
+                }
+                else
+                {
+                    dp[i][j] = dp[i-1][j];
+                }
+            }
+        }
+        
+        return dp[arr.length][newTarget];
+    }
+}

@@ -1,7 +1,39 @@
 Given a rod of length n(size of price) inches and an array of prices, price. price[i] denotes the value of a piece of length i. 
 Determine the maximum value obtainable by cutting up the rod and selling the pieces.
 
-Solution :
+Solution 1 (Recursive) :
+class Solution {
+    public int cutRod(int[] price) {
+    int n = price.length;
+    int[] length = new int[n];
+    int[][] memo = new int[n+1][n+1];
+    for(int i=0; i<n; i++)
+    {
+        length[i] = i+1;
+        Arrays.fill(memo[i], -1);
+    }
+    Arrays.fill(memo[n], -1);
+    return maxProfit(price, length, n, n, memo);
+    
+}
+
+public int maxProfit(int[] price, int[] length, int n, int availableLength, int[][] memo)
+{
+    if(n==0 || availableLength==0)return 0;
+    if(memo[n][availableLength]!=-1)return memo[n][availableLength];
+    if(length[n-1]<=availableLength)
+    {
+        memo[n][availableLength]  = Math.max(
+        maxProfit(price, length, n-1, availableLength, memo), 
+        maxProfit(price, length, n, availableLength-length[n-1], memo)+price[n-1]
+        );
+    }
+    else memo[n][availableLength] =  maxProfit(price, length, n-1, availableLength, memo);
+    return memo[n][availableLength];
+}
+}
+
+Solution 2 (DP) :
 
 class Solution {
     public int cutRod(int[] price) {

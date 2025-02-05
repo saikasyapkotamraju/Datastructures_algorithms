@@ -2,6 +2,25 @@ Given a set of items, each with a weight and a value, represented by the array w
 The task is to fill the knapsack in such a way that we can get the maximum profit. Return the maximum profit.
 Note: Each item can be taken any number of times.
 
+Solution 1 (Recursive)
+static int knapSack(int val[], int wt[], int capacity) {
+        return maxValue(val, wt, capacity, wt.length);
+    }
+    
+public static int maxValue(int[] val, int[] wt, int capacity, int n)
+{
+    if(n==0)return 0;
+    if(capacity==0)return 0;
+    
+    if(wt[n-1]<=capacity)
+    {
+        return Math.max(maxValue(val, wt, capacity, n-1), 
+                        maxValue(val, wt, capacity-wt[n-1], n)+val[n-1]);
+    }
+    
+    return maxValue(val, wt, capacity, n-1);
+}
+
 Solution 2 (DP)
 class Solution {
     static int knapSack(int val[], int wt[], int capacity) {

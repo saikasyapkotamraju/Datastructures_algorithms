@@ -6,18 +6,17 @@ Solution 1 (Recursive with memoisation)
 
 class Solution {
     public int rob(int[] nums) {
-        int[] memo = new int[nums.length+1];
+        int[] memo = new int[nums.length];
         Arrays.fill(memo, -1);
         return maxMoney(nums, nums.length, memo);
     }
 
     public int maxMoney(int[] nums, int n, int[] memo)
     {
-        if(n==0)return 0;
-        if(n==1)return nums[0];
-        if(memo[n]!=-1)return memo[n];
-        memo[n] =  Math.max(nums[n-1] + maxMoney(nums, n-2, memo), maxMoney(nums, n-1, memo));
-        return memo[n];
+        if(n<=0)return 0;
+        if(memo[n-1]!=-1)return memo[n-1];
+        memo[n-1] = Math.max(maxMoney(nums, n-2, memo)+nums[n-1], maxMoney(nums, n-1, memo));
+        return memo[n-1];
     }
 }
 

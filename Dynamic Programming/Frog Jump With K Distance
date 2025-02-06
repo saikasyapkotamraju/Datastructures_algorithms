@@ -1,0 +1,59 @@
+Given an array arr[] of size n, where arr[i] denotes the height of ith stone. Geek starts from stone 0 and from stone i, he can jump to stones i + 1, i + 2, … i + k. 
+The cost for jumping from stone i to stone j is abs(arr[i] – arr[j]). Find the minimum cost for Geek to reach the last stone.
+
+Solution 1 (Recursive with memoisation)
+
+class Solution {
+    public int minimizeCost(int k, int arr[]) {
+        int[] memo = new int[arr.length];
+        for(int i=0; i<arr.length; i++)
+        {
+            memo[i] = -1;
+        }
+        return minCost(arr, arr.length-1, k, memo);
+    }
+    
+    public int minCost(int[] arr, int n, int k, int[] memo)
+    {
+        if(k==0 || n==0)return 0;
+        if(memo[n]!=-1)return memo[n];
+        int minCost1 = Integer.MAX_VALUE;
+        for(int i=1; i<=k; i++)
+        {
+            if(n-i>=0)
+            {
+                minCost1 = Math.min(minCost1, minCost(arr, n-i, k, memo) +       
+                            Math.abs(arr[n] - arr[n-i]));
+            }
+        }
+        memo[n] = minCost1;
+        return memo[n];
+    }
+}
+
+
+Solution 2 (DP)
+
+class Solution {
+    public int minimizeCost(int k, int arr[]) {
+        int n = arr.length;
+        int[] dp = new int[n];
+        dp[0] = 0;
+        dp[1] = Math.abs(arr[1] - arr[0]);
+        for(int i=2; i<n; i++)
+        {
+            int minCost1 = Integer.MAX_VALUE;
+            for(int j=1; j<=k; j++)
+            {
+                if(i-j>=0)
+                {
+                    minCost1 = Math.min(minCost1, dp[i-j]+
+                                Math.abs(arr[i] - arr[i-j]));
+                }
+            }
+            dp[i] = minCost1;
+        }
+        
+        return dp[n-1];
+    }
+}

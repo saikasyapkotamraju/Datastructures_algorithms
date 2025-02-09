@@ -1,0 +1,21 @@
+Given two strings str1 and str2, return the length of shortest string that has both str1 and str2 as subsequences. 
+If there are multiple valid strings, return length of any of them.
+
+Solution 1 (Recursion with memoisation)
+private int constructSCS(String str1, String str2, int i, int j, int[][] memo) {
+    if (i == 0 || j == 0) {
+        return i + j;  //If i==0 return length of j and viceversa
+    }
+    if (memo[i][j] != -1) {
+        return memo[i][j];
+    }
+    if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
+        memo[i][j] = 1 + constructSCS(str1, str2, i - 1, j - 1, memo);
+    } else {
+        memo[i][j] = Math.min(
+            constructSCS(str1, str2, i - 1, j, memo),
+            constructSCS(str1, str2, i, j - 1, memo)
+        ) + 1; //If both the characters at current indices are not same, then we need to append one charcter (which character to be appended will be
+    }          // decided by dp table
+    return memo[i][j];
+}

@@ -27,7 +27,7 @@ class Solution {
         if(n==0 && m>0)
         {
             memo[n][m] = true;
-            for (int i = 0; i < m; i++) 
+            for (int i = 0; i < m; i++) //If string is empty and remaning pattern is having all stars then it is true(matched)
             {
                 if (p.charAt(i) != '*') 
                 {
@@ -50,7 +50,7 @@ class Solution {
         else if(p.charAt(m-1)=='*')
         {
             memo[n][m] = helper(s, p, n, m-1, memo, computed) || helper(s, p, n-1, m, memo, computed);
-        }
+        }   //Omit * and check remaining pattern matches string(ex : a and a*)  //Check if * matches more than 1 character(ex: adb and a*)
         else
         {
             memo[n][m] = false;

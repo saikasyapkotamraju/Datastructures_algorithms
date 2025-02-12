@@ -1,0 +1,60 @@
+Given two strings s and t, return the number of distinct subsequences of s which equals t.
+
+The test cases are generated so that the answer fits on a 32-bit signed integer.
+
+Solution 1 (Recursion with memoisation)
+import java.util.*;
+class Solution {
+    public int numDistinct(String s, String t) {
+        int n = s.length(), m = t.length();
+        int[][] memo = new int[n+1][m+1];
+        for(int i=0; i<=n; i++)
+        {
+            Arrays.fill(memo[i], -1);
+        }
+        return helper(s, t, n, m, memo);
+    }
+
+    public int helper(String s, String t, int n, int m, int[][] memo)
+    {
+        if(m==0)return 1;
+        if(n==0)return 0;
+        if(memo[n][m]!=-1)return memo[n][m];
+        if(s.charAt(n-1)==t.charAt(m-1))
+        {
+            memo[n][m] =  helper(s, t, n-1, m, memo) + helper(s, t, n-1, m-1, memo); //If last characters of both string and pattern matches, 
+        }                                                                            //that last character will help in forming subsequences that are 
+        else                                                                         //equal to pattern. So we need to sum up with that character help
+        {                                                                            // and without that character help
+            memo[n][m] = helper(s, t, n-1, m, memo);  //If last characters of both string and pattern does not matches, we should only go with no of
+        }                                             //subsequences without that help
+        return memo[n][m];
+    }
+}
+
+Solution 2 (DP):
+class Solution {
+    public int numDistinct(String s, String t) {
+        int n = s.length(), m = t.length();
+        int[][] dp = new int[n+1][m+1];
+        for(int i=0; i<=n; i++)
+        {
+            dp[i][0] = 1;
+        }
+        for(int i=1; i<=n; i++)
+        {
+            for(int j=1; j<=m; j++)
+            {
+                if(s.charAt(i-1)==t.charAt(j-1))
+                {
+                    dp[i][j] = dp[i-1][j-1] + dp[i-1][j];
+                }
+                else
+                {
+                    dp[i][j] = dp[i-1][j];
+                }
+            }
+        }
+        return dp[n][m];
+    }
+}

@@ -1,0 +1,56 @@
+Given a string s and a dictionary of strings wordDict, return true if s can be segmented into a space-separated sequence of one or more dictionary words.
+
+Note that the same word in the dictionary may be reused multiple times in the segmentation.
+
+Solution 1 (Recursion with memoisation)
+class Solution {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        int n = s.length();
+        HashSet<String> wordSet = new HashSet<>(wordDict);
+        boolean[] memo = new boolean[n], computed = new boolean[n];
+        return helper(s, wordSet, 0, n, memo, computed);
+    }
+
+    public boolean helper(String s, HashSet<String> wordSet, int index, int n, boolean[] memo, boolean[] computed)
+    {
+        if(index==n)return true;
+        if(computed[index])return memo[index];
+        boolean isStrPresent = false;
+        for(int i=index; i<n; i++)
+        {
+            String word = s.substring(index, i+1);
+            if(wordSet.contains(word))
+            {
+                isStrPresent = isStrPresent || helper(s, wordSet, i+1, n, memo, computed);
+                if(isStrPresent)break;
+            }
+        }
+        memo[index] = isStrPresent;
+        computed[index] = true;
+        return memo[index];
+    }
+}
+
+Solution 2 (DP)
+class Solution {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        HashSet<String> dictSet = new HashSet<>(wordDict);
+        int n = s.length();
+        boolean[] dp = new boolean[n+1];
+        dp[0] = true;
+        for(int i=1; i<=n; i++)
+        {
+            for(int j=0; j<i; j++)
+            {
+                String word = s.substring(j, i);
+                if(dictSet.contains(word) && dp[j])
+                {
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+
+        return dp[n];
+    }
+}

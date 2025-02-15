@@ -1,0 +1,52 @@
+You are given an integer array nums. You are initially positioned at the array's first index, and each element in the array represents your maximum jump length at that position.
+
+Return true if you can reach the last index, or false otherwise.
+
+Solution 1(Recursion with memoisation)
+class Solution {
+    public boolean canJump(int[] nums) {
+        int n = nums.length;
+        boolean[] memo = new boolean[n];
+        boolean[] computed = new boolean[n];
+        return helper(nums, 0, n-1, memo, computed);
+    }
+
+    public boolean helper(int[] nums, int index, int n, boolean[] memo, boolean[] computed)
+    {
+        if(index>=n) return true;
+        if(nums[index]==0)return false;
+        if(computed[index])return memo[index];
+        boolean isReachable = false;
+        for(int i=1; i<=nums[index]; i++)
+        {
+            if(i<=n)
+            {
+                isReachable = isReachable || helper(nums, index+i, n, memo,computed);
+                if(isReachable)break;
+            }
+        }
+        computed[index] = true;
+        memo[index] = isReachable;
+        return memo[index];
+    }
+}
+
+Solution 2 (DP)
+class Solution {
+    public boolean canJump(int[] nums) {
+        int n = nums.length;
+        boolean[] dp = new boolean[n];
+        dp[n-1] = true;
+        for(int i=n-2; i>=0; i--)
+        {
+            for(int j=1; j<=nums[i]; j++)
+            {
+                if(i+j>=n || dp[i+j])
+                {
+                    dp[i] = true;
+                }
+            }
+        }
+        return dp[0];
+    }
+}

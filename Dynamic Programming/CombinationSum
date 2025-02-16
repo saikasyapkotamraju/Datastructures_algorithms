@@ -1,0 +1,33 @@
+Given an array of distinct integers candidates and a target integer target, return a list of all unique combinations of candidates where the chosen numbers sum to target. You may return the combinations in any order.
+
+The same number may be chosen from candidates an unlimited number of times. Two combinations are unique if the 
+frequency
+ of at least one of the chosen numbers is different.
+
+The test cases are generated such that the number of unique combinations that sum up to target is less than 150 combinations for the given input.
+
+
+Solution 1 (Recursion)
+class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        int n = candidates.length;
+        List<List<Integer>> result = new ArrayList<>();
+        getCombinations(candidates, 0, 0, target, new ArrayList<>(), result);
+        return result;
+    }
+
+    public void getCombinations(int[] candidates, int ind, int currTot, int target, List<Integer> currList, List<List<Integer>> result)
+    {
+        if(ind>=candidates.length || (currTot>target))return;
+        if(currTot==target)
+        {
+            result.add(new ArrayList<>(currList));
+            return;
+        }
+        currList.add(candidates[ind]);
+        getCombinations(candidates, ind, currTot+candidates[ind], target, currList, result);
+        currList.remove(currList.size()-1);
+        getCombinations(candidates, ind+1, currTot, target, currList, result);
+    }
+}
+

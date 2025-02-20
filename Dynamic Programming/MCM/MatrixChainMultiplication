@@ -57,6 +57,6 @@ class Solution {
             }
         }
         
-        return dp[1][n-1];
+        return dp[1][n-1]; //For the first matrix the dimensions are at index 0 and 1
     }
 }

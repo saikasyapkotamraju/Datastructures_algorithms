@@ -1,0 +1,42 @@
+Given an undirected graph with V vertices. We say two vertices u and v belong to a single province if there is a path from u to v or v to u. Your task is to find the number of provinces.
+
+Note: A province is a group of directly or indirectly connected cities and no other cities outside of the group.
+
+Solution (BFS) :
+class Solution {
+    static int numProvinces(ArrayList<ArrayList<Integer>> adj, int V) {
+        int provinces = 0;
+        boolean[] visited = new boolean[V];
+        for(int i=0; i<V; i++)
+        {
+            if(!visited[i])
+            {
+                provinces++;
+                bfs(i, adj, visited);
+            }
+        }
+        return provinces;
+    }
+    
+    static void bfs(int node, ArrayList<ArrayList<Integer>> adj, boolean[] visited)
+    {
+        visited[node] = true;
+        Queue<Integer> queue = new LinkedList<>();
+        
+        queue.add(node);
+        
+        while(!queue.isEmpty())
+        {
+            int ele = queue.poll();
+            ArrayList<Integer> adjList = adj.get(ele);
+            for(int i=0; i<adjList.size(); i++)
+            {
+                if(adjList.get(i)==1 && !visited[i])
+                {
+                    visited[i] = true;
+                    queue.add(i);
+                }
+            }
+        }
+    }
+};

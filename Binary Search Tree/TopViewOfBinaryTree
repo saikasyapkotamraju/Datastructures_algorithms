@@ -1,0 +1,63 @@
+You are given a binary tree, and your task is to return its top view. The top view of a binary tree is the set of nodes visible when the tree is viewed from the top.
+
+Note: 
+
+Return the nodes from the leftmost node to the rightmost node.
+If two nodes are at the same position (horizontal distance) and are outside the shadow of the tree, consider the leftmost node only. 
+
+Solution :
+class Pair {
+        Node first; 
+        int second;
+        
+        Pair(Node first, int second)
+        {
+            this.first = first;
+            this.second = second;
+        }
+    }
+    
+class Solution {
+    // Function to return a list of nodes visible from the top view
+    // from left to right in Binary Tree.
+    
+    
+    static ArrayList<Integer> topView(Node root) {
+        ArrayList<Integer> result = new ArrayList<>();
+        if (root == null) return result;
+
+        // Map to store HD -> first node value
+        Map<Integer, Integer> map = new TreeMap<>(); // TreeMap for sorted HD order
+        Queue<Pair> queue = new LinkedList<>();
+        queue.offer(new Pair(root, 0)); // Start with root at HD 0
+
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+            for(int i=0; i<levelSize; i++)
+            {
+                Pair pair = queue.poll();
+                Node node = pair.first;
+                int hd = pair.second;
+    
+                // Only add the first node for each HD
+                if (!map.containsKey(hd)) {
+                    map.put(hd, node.data);
+                }
+    
+                // Add left and right children with their HDs
+                if (node.left != null) {
+                    queue.offer(new Pair(node.left, hd - 1));
+                }
+                if (node.right != null) {
+                    queue.offer(new Pair(node.right, hd + 1));
+                }
+            }
+        
+        }
+
+        // Add map values to result (sorted by HD)
+        result.addAll(map.values());
+        return result;
+        
+    }
+}

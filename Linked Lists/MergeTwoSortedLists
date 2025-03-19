@@ -1,0 +1,44 @@
+You are given the heads of two sorted linked lists list1 and list2.
+Merge the two lists into one sorted list. The lst should be made by splicing together the nodes of the first two lists.
+Return the head of the merged linked list.
+
+Solution :
+class Solution {
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        if(list1==null && list2==null)return list1;
+        if(list1==null)return list2;
+        if(list2==null)return list1;
+        ListNode mergedListHead = new ListNode(-1);
+        ListNode resultHead = mergedListHead;
+        ListNode node1 = list1, node2 = list2;
+        while(node1!=null && node2!=null)
+        {
+            if(node1.val<node2.val)
+            {
+                mergedListHead.next = node1;
+                node1 = node1.next;
+            }
+            else
+            {
+                mergedListHead.next = node2;
+                node2 = node2.next;
+            }
+            mergedListHead = mergedListHead.next;
+        }
+        while(node1!=null)
+        {
+            mergedListHead.next = node1;
+            node1 = node1.next;
+            mergedListHead = mergedListHead.next;
+        }
+        while(node2!=null)
+        {
+            mergedListHead.next = node2;
+            node2 = node2.next;
+            mergedListHead = mergedListHead.next;
+        }
+
+        return resultHead.next;
+    }
+}
+

@@ -1,0 +1,54 @@
+Given an array arr[], its starting position l and its ending position r. Sort the array using the merge sort algorithm.
+
+class Solution {
+
+    void mergeSort(int arr[], int l, int r) {
+        if(l < r)
+        {
+            int mid = l + (r-l)/2 ;
+            mergeSort(arr, l, mid);
+            mergeSort(arr, mid+1, r);
+            merge(arr, l, mid, r);
+        }
+    }
+    
+    public void merge(int[] arr, int l, int mid, int r)
+    {
+        int first = l, second = mid+1;
+        int n1 = mid - l + 1;
+        int n2 = r - mid;
+        int[] leftArr = new int[n1];
+        int[] rightArr = new int[n2];
+        for(int i=0; i<n1; i++)
+        {
+            leftArr[i] = arr[first++];
+        }
+        for(int i=0; i<n2; i++)
+        {
+            rightArr[i] = arr[second++];
+        }
+        
+        first = 0; second = 0;
+        int k = l;
+        while(first<n1 && second<n2)
+        {
+            if(leftArr[first]<rightArr[second])
+            {
+                arr[k++] = leftArr[first++];
+            }
+            else
+            {
+                arr[k++] = rightArr[second++];
+            }
+        }
+        
+        while(first<n1)
+        {
+            arr[k++] = leftArr[first++];
+        }
+        while(second<n2)
+        {
+            arr[k++] = rightArr[second++];
+        }
+    }
+}

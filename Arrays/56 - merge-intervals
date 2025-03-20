@@ -20,40 +20,29 @@ Constraints:
 intervals[i].length == 2
 0 <= starti <= endi <= 104
 
-My solution : 
 class Solution {
     public int[][] merge(int[][] intervals) {
-        Arrays.sort(intervals, new Comparator<int[]>() {
-            @Override
-            public int compare(int[] a, int[] b){
-                return Integer.compare(a[0], b[0]);
-            } 
-        });
+        if (intervals == null || intervals.length <= 1) return intervals;
+        int n = intervals.length;
+        int[][] mergedIntervals = new int[n][2];
+        int start = 0;
 
-        int prev[] = intervals[0];
-        ArrayList<int[]> res = new ArrayList<>();
-        for(int[] interval : intervals)
+        Arrays.sort(intervals, (a,b) -> Integer.compare(a[0], b[0]));
+
+        int[] currInterval = intervals[0].clone();
+        for(int i=1; i<n; i++)
         {
-            if(prev[1] >= interval[0])
+            if(currInterval[1] < intervals[i][0])
             {
-                prev[1] = Math.max(prev[1], interval[1]);
+                mergedIntervals[start++] = currInterval;
+                currInterval = intervals[i].clone();
             }
             else
             {
-                res.add(prev);
-                prev = interval;
+                currInterval[1] = Math.max(currInterval[1], intervals[i][1]);
             }
         }
-        res.add(prev);
-        int[][] output = new int[res.size()][2];
-        int k = 0;
-        for(int[] arr : res)
-        {
-            output[k++] = arr;
-        }
-        return output;
+        mergedIntervals[start++] = currInterval;
+        return Arrays.copyOf(mergedIntervals, start);
     }
 }
-
-My logic : Sort the intervals. Maintain prev interval and update end of prev interval if there is any overlapping interval and other wise add prev to 
-result.

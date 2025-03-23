@@ -1,0 +1,37 @@
+Given a string s of lowercase alphabets, count all possible substrings (not necessarily distinct) that have exactly k distinct characters. 
+
+Solution 
+class Solution {
+    int countSubstr(String s, int k) {
+        return atMostK(s, k) - atMostK(s, k-1);
+    }
+    
+    int atMostK(String s, int k)
+    {
+        if(s==null || s.length()==0 || k<0)return 0;
+        if(k>s.length())return 0;
+        
+        int result = 0, start = 0;
+        HashMap<Character, Integer> mp = new HashMap<>();
+        
+        for(int end = 0; end<s.length(); end++)
+        {
+            mp.put(s.charAt(end), mp.getOrDefault(s.charAt(end), 0)+1);
+
+            //Shrink start untill the condition met
+            while(mp.size()>k) 
+            {
+                mp.put(s.charAt(start), mp.getOrDefault(s.charAt(start), 0)-1);
+                if(mp.get(s.charAt(start))==0)
+                {
+                    mp.remove(s.charAt(start));
+                }
+                start++;
+            }
+            //Update final result
+            result += end - start + 1; // This gives number of sub strings ends at end and starts at all indices from start to end
+        }
+        
+        return result;
+    }
+}

@@ -1,0 +1,43 @@
+The beauty of a string is the difference in frequencies between the most frequent and least frequent characters.
+For example, the beauty of "abaacc" is 3 - 1 = 2.
+Given a string s, return the sum of beauty of all of its substrings.
+Example 1:
+Input: s = "aabcb"
+Output: 5
+Explanation: The substrings with non-zero beauty are ["aab","aabc","aabcb","abcb","bcb"], each with beauty equal to 1.
+Example 2:
+Input: s = "aabcbaa"
+Output: 17
+Constraints:
+1 <= s.length <= 500
+s consists of only lowercase English letters.
+
+Solution 
+class Solution {
+    public int beautySum(String s) {
+        if(s==null || s.length()==0)return 0;
+        int result = 0;
+        for(int start=0; start<s.length(); start++)
+        {
+            int[] charFreq = new int[26]; //At every start index fresh counting should be started
+            for(int end = start; end<s.length(); end++)
+            {
+                charFreq[s.charAt(end) - 'a']++;
+                int maxFreq = Integer.MIN_VALUE;
+                int minFreq = Integer.MAX_VALUE;
+                for(int num : charFreq)
+                {
+                    if(num > 0) //If freq is zero it means that char is not present
+                    {
+                        maxFreq = Math.max(maxFreq, num);
+                        minFreq = Math.min(minFreq, num);
+                    }
+                }
+                result += maxFreq - minFreq;
+            }
+            
+        }
+
+        return result;
+    }
+}

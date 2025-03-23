@@ -1,0 +1,84 @@
+Given a string s, return the longest palindromic substring in s.
+Example 1:
+Input: s = "babad"
+Output: "bab"
+Explanation: "aba" is also a valid answer.
+Example 2:
+Input: s = "cbbd"
+Output: "bb"
+
+
+Solution 1 (Naive)
+class Solution {
+    public String longestPalindrome(String s) {
+        if(s==null || s.length()==0)return "";
+        int finalLength = Integer.MIN_VALUE;
+        String finalStr = "";
+
+        for(int start=0; start<s.length(); start++)
+        {
+            for(int end=0; end<s.length(); end++)
+            {
+                if(isPalindrome(s, start, end))
+                {
+                    if(finalLength < (end - start + 1))
+                    {
+                        finalLength = end - start + 1;
+                        finalStr = s.substring(start, end+1);
+                    }
+                }
+            }
+        }
+
+        return finalStr;
+    }
+
+    boolean isPalindrome(String s, int start, int end)
+    {
+        if(start>end)return false;
+        while(start<=end)
+        {
+            if(s.charAt(start)!=s.charAt(end))return false;
+            start++;
+            end--;
+        }
+        return true;
+    }
+}
+
+Solution 2 (Optimised, expand around center algorithm)
+class Solution {
+    public int start = 0, end = 0;
+    public String longestPalindrome(String s) {
+        if(s==null || s.length()==0)return "";
+        helper(s.toCharArray(), 0);
+
+        return s.substring(start, end+1);
+    }
+
+    void helper(char[] chars, int ind)
+    {
+        int right = ind, left = ind;
+        if(ind == chars.length)return;
+        while(right < chars.length-1 && chars[right]==chars[right+1])
+        {
+            right++;
+        }
+        ind = right;
+
+        while(left>0 && right<chars.length-1 && chars[left-1]==chars[right+1])
+        {
+            left--;
+            right++;
+        }
+
+        if(right-left > end - start)
+        {
+            start = left;
+            end = right;
+        }
+
+        helper(chars, ++ind);
+
+    }
+}

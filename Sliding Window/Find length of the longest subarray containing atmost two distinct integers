@@ -1,0 +1,27 @@
+Given an array arr[] containing positive elements, the task is to find the length of the longest subarray of an input array containing at most two distinct integers.
+Solution
+class Solution {
+    public static int totalElements(Integer[] arr) {
+        if(arr==null || arr.length==0)return 0;
+        HashMap<Integer, Integer> nums = new HashMap<>();
+        int start = 0, end = 0, result = Integer.MIN_VALUE;
+        while(end < arr.length)
+        {
+            nums.put(arr[end], nums.getOrDefault(arr[end], 0)+1);
+            while(nums.size() > 2)
+            {
+                nums.put(arr[start], nums.getOrDefault(arr[start], 0)-1);
+                if(nums.get(arr[start])==0)
+                {
+                    nums.remove(arr[start]);
+                }
+                start++;
+            }
+            
+            result = Math.max(result, end - start + 1);
+            end++;
+        }
+        
+        return result;
+    }
+}

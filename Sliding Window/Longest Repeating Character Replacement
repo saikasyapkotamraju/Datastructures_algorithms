@@ -1,0 +1,31 @@
+You are given a string s and an integer k. You can choose any character of the string and change it to any other uppercase English character. You can perform this operation at most k times.
+Return the length of the longest substring containing the same letter you can get after performing the above operations.
+
+Solution 
+class Solution {
+    public int characterReplacement(String s, int k) {
+        if(s==null || s.length()==0)return 0;
+        int n = s.length(), start = 0, end = 0, maxFrequency = 0, result = Integer.MIN_VALUE;
+        int[] frequencies = new int[26];
+        while(end < n)
+        {
+            frequencies[s.charAt(end) - 'A']++;
+            maxFrequency = Math.max(maxFrequency, frequencies[s.charAt(end) - 'A']);
+            while((end - start + 1) - maxFrequency > k)
+            {
+                frequencies[s.charAt(start) - 'A']--;
+                start++;
+                maxFrequency = 0;
+                for(int freq : frequencies)
+                {
+                    maxFrequency = Math.max(maxFrequency, freq);
+                }
+            }
+
+            result = Math.max(result, end - start + 1);
+            end++;
+        }
+
+        return result;
+    }
+}

@@ -1,0 +1,23 @@
+Given a binary array nums and an integer goal, return the number of non-empty subarrays with a sum goal. A subarray is a contiguous part of the array.
+
+Solution 
+class Solution {
+    public int numSubarraysWithSum(int[] nums, int goal) {
+        if(nums==null || nums.length==0)return 0;
+        HashMap<Integer, Integer> prefixSum = new HashMap<>();
+        int prefix = 0, result = 0;
+        prefixSum.put(0, 1);
+        for(int i=0; i<nums.length; i++)
+        {
+            prefix += nums[i];
+            if(prefixSum.containsKey(prefix - goal))
+            {
+                result += prefixSum.get(prefix - goal);
+            }
+
+            prefixSum.put(prefix, prefixSum.getOrDefault(prefix, 0)+1);
+        }
+
+        return result;
+    }
+}

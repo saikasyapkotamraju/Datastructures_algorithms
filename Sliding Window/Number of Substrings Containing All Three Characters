@@ -1,0 +1,24 @@
+Given a string s consisting only of characters a, b and c.
+Return the number of substrings containing at least one occurrence of all these characters a, b and c.
+
+Solution
+class Solution {
+    public int numberOfSubstrings(String s) {
+        if(s==null || s.length()==0)return 0;
+        HashMap<Character, Integer> chars = new HashMap<>();
+        int start=0, end=0, result=0;
+        while(end < s.length())
+        {
+            chars.put(s.charAt(end), chars.getOrDefault(s.charAt(end), 0)+1);
+            while(chars.size()==3)
+            {
+                result += s.length()-end; //Counts all the substrings that will end at end index and after it since we already have at least 3 chars
+                chars.put(s.charAt(start), chars.get(s.charAt(start))-1);
+                if(chars.get(s.charAt(start))==0)chars.remove(s.charAt(start));
+                start++;
+            }
+            end++;
+        }
+        return result;
+    }
+}

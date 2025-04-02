@@ -1,0 +1,33 @@
+Given an array of integers nums and an integer k. A continuous subarray is called nice if there are k odd numbers on it.
+Return the number of nice sub-arrays.
+
+class Solution {
+    public int numberOfSubarrays(int[] nums, int k) {
+        return atMostKOdds(nums, k) - atMostKOdds(nums, k - 1);
+    }
+
+    // Helper function to count subarrays with at most k odds
+    private int atMostKOdds(int[] nums, int k) {
+        int start = 0, total = 0, countOdds = 0;
+
+        for (int end = 0; end < nums.length; end++) {
+            // Increment countOdds if current element is odd
+            if (nums[end] % 2 != 0) {
+                countOdds++;
+            }
+
+            // Shrink window if countOdds exceeds k
+            while (countOdds > k) {
+                if (nums[start] % 2 != 0) {
+                    countOdds--;
+                }
+                start++;
+            }
+
+            // Add the number of valid subarrays ending at 'end'
+            total += end - start + 1;
+        }
+
+        return total;
+    }
+}

@@ -3,6 +3,7 @@ Topological sorting for Directed Acyclic Graph (DAG) is a linear ordering of ver
 Note: As there are multiple Topological orders possible, you may return any of them. If your returned Topological sort is correct then the output will be 1 else 0.
 
 Solution :
+Topological sort : Linear order of vertices such that if there is a edge from u to v, u should be appear before v(not exactly 1 step before)
 class Solution {
     public static ArrayList<Integer> topoSort(int V, int[][] edges) {
         // code here

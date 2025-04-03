@@ -4,6 +4,7 @@ Note: As there are multiple Topological orders possible, you may return any of t
 
 Solution :
 Topological sort : Linear order of vertices such that if there is a edge from u to v, u should be appear before v(not exactly 1 step before)
+                   Topo sort is only possible/valid in DAG
 class Solution {
     public static ArrayList<Integer> topoSort(int V, int[][] edges) {
         // code here

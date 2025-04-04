@@ -1,0 +1,41 @@
+Given a pointer to the root of a binary tree, print the top view of the binary tree.
+The tree as seen from the top the nodes, is called the top view of the tree.
+
+Solution
+public static void topView(Node root) {
+      if(root==null)return;
+      TreeMap<Integer, Integer> dist = new TreeMap<>();
+      Queue<Pair> queue = new LinkedList<>();
+      queue.offer(new Pair(root, 0));
+      
+      while(!queue.isEmpty())
+      {
+        int levelSize = queue.size();
+        while(levelSize-->0){
+            Pair pair = queue.poll();
+            if(!dist.containsKey(pair.distance)){
+                dist.put(pair.distance, pair.node.data);
+            }
+            if(pair.node.left!=null){
+                queue.offer(new Pair(pair.node.left, pair.distance-1));
+            }
+            if(pair.node.right!=null){
+                queue.offer(new Pair(pair.node.right, pair.distance+1));
+            }
+        }
+      }
+      
+      for(Map.Entry<Integer, Integer> entry : dist.entrySet()){
+        System.out.print(entry.getValue() + " ");
+      }      
+}
+    
+static class Pair{
+    Node node;
+    int distance;
+    
+    public Pair(Node node, int dist){
+        this.node = node;
+        this.distance = dist;
+    }
+}

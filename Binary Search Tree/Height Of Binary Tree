@@ -1,0 +1,69 @@
+The height of a binary tree is the number of edges between the tree's root and its furthest leaf.
+Complete the getHeight or height function in the editor. It must return the height of a binary tree as an integer.
+getHeight or height has the following parameter(s):
+root: a reference to the root of a binary tree.
+Note -The Height of binary tree with single node is taken as zero.
+
+Solution 
+import java.util.*;
+import java.io.*;
+
+class Node {
+    Node left;
+    Node right;
+    int data;
+    
+    Node(int data) {
+        this.data = data;
+        left = null;
+        right = null;
+    }
+}
+
+class Solution {
+
+	/*
+    class Node 
+    	int data;
+    	Node left;
+    	Node right;
+	*/
+	public static int height(Node root) {
+      	// Write your code here.
+        if(root==null)return 0;
+        Queue<Pair> queue = new LinkedList<>();
+        int result = 0;
+        queue.offer(new Pair(root, 0));
+        while(!queue.isEmpty())
+        {
+            int levelSize = queue.size();
+            while(levelSize-->0)
+            {
+                Pair pair = queue.poll();
+                Node node = pair.node;
+                int dist = pair.second;
+                result = Math.max(result, dist);
+                if(node.left!=null)
+                {
+                    queue.offer(new Pair(node.left, dist+1));
+                }
+                if(node.right!=null)
+                {
+                    queue.offer(new Pair(node.right, dist+1));
+                }
+            }
+        }
+        
+        return result;
+    }
+    
+    static class Pair{
+        Node node;
+        int second;
+        Pair(Node node, int second)
+        {
+            this.node = node;
+            this.second = second;
+        }
+    }
+}

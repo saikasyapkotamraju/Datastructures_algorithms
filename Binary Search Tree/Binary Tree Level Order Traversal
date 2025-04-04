@@ -1,0 +1,21 @@
+Given a pointer to the root of a binary tree, you need to print the level order traversal of this tree. In level-order traversal, nodes are visited level by level from left to right. Complete the function  and print the values in a single line separated by a space.
+
+Solution
+public static void levelOrder(Node root) {
+      if(root==null)return;
+      Queue<Node> queue = new LinkedList<>();
+      queue.offer(root);
+      
+      while(!queue.isEmpty()){
+        int levelSize = queue.size();
+        while(levelSize-->0){
+            Node node = queue.poll();
+            System.out.print(node.data + " ");
+            if(node.left!=null){
+                queue.offer(node.left);
+            }
+            if(node.right!=null){
+                queue.offer(node.right);
+            }
+        }
+      }

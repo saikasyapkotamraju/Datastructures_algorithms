@@ -4,7 +4,7 @@ getHeight or height has the following parameter(s):
 root: a reference to the root of a binary tree.
 Note -The Height of binary tree with single node is taken as zero.
 
-Solution 
+Solution 1 (Using BFS)
 import java.util.*;
 import java.io.*;
 
@@ -65,5 +65,16 @@ class Solution {
             this.node = node;
             this.second = second;
         }
+    }
+}
+
+Solution 2 (Optimised using recursion)
+class Solution {
+    public int maxDepth(TreeNode root) {
+        if(root==null)return 0;
+        int lh = maxDepth(root.left);
+        int rh = maxDepth(root.right);
+
+        return Math.max(lh, rh) + 1;
     }
 }

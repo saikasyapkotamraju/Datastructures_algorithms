@@ -1,0 +1,18 @@
+Given a binary tree, determine if it is height-balanced.
+
+Solution
+class Solution {
+    public boolean isBalanced(TreeNode root) {
+        return helper(root)!=-1;
+    }
+
+    //Below modified original maxdepth of binary tree function
+    int helper(TreeNode root){
+        if(root==null)return 0;
+        int lh = helper(root.left);
+        int rh = helper(root.right);
+        if(lh==-1 || rh==-1)return -1; //Checks if any of the sub tree is not balanced
+        if(Math.abs(lh - rh) > 1)return -1; //Checks if at the current node tree is not balanced
+        return Math.max(lh, rh) + 1;
+    }
+}

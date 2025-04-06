@@ -3,6 +3,9 @@ The diameter of a binary tree is the length of the longest path between any two 
 The length of a path between two nodes is represented by the number of edges between them.
 
 Solution
+We can use maximum depth of binary tree logic to this sum. At every node we will update result with maximum diameter of the path that is passing
+through the current node from left and right sides of it. After updating the result, we will pass sum of 1 plus maximum depth (either from right or 
+left) to upper levels, as they expect maximum depth possible from their sub trees.
 class Solution {
     int result = Integer.MIN_VALUE;
     public int diameterOfBinaryTree(TreeNode root) {

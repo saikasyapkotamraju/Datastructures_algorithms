@@ -52,6 +52,26 @@ class Solution {
     }
 }
 
+Solution 
+class Solution {
+    public String longestCommonPrefix(String[] strs) {
+        if(strs.length==0 || strs==null)return "";
+
+        String result = strs[0];
+        for(int i=1; i<strs.length; i++)
+        {
+            int j=0;
+            while(j<strs[i].length() && (j<result.length() && result.charAt(j)==strs[i].charAt(j)))
+            {
+                j++;
+            }
+            result = result.substring(0, j);
+        }
+
+        return result;
+    }
+}
+
 Solution (Optimised):
 class Solution {
     public String longestCommonPrefix(String[] strs) {
